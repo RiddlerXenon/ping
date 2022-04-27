@@ -1,23 +1,23 @@
-### УСТАНОВКА ###
+*** УСТАНОВКА ***
 В командной строке прописываем (на ПК должен быть устоновлен python):
   pip install -r requirements.txt
 
-### ЗАПУСК ###
+*** ЗАПУСК ***
 В командной строке прописываем (на ПК должен быть устоновлен python):
   python3 main.py
 
-### ОПИСАНИЕ РАБОТЫ ПРОГРАММЫ ###
+*** ОПИСАНИЕ РАБОТЫ ПРОГРАММЫ ***
 
-###
+***
 ФАЙЛ main.py
-###
+***
 if __name__ == "__main__":
     main()
     
 При запуске программы вызывается функция main()
-###
+***
 
-###
+***
 def main():
     host = input("Input hostname: ") # host можно задать вручную
     # задаём хост, который будем пинговать
@@ -27,9 +27,9 @@ def main():
 
     do_schedule(host)
     # вызываем функцию do_schedule()
-###
+***
     
-###
+***
 def handler(signum, frame):
   res = input("Ctrl-c was pressed. Do you really want to exit? y/n: ") спрашиваем нужно ли завешить программу
 
@@ -40,9 +40,9 @@ def handler(signum, frame):
       вызываем функцию work_time() из файла db.py
 
       exit(1) 
-###
+***
 
-###
+***
 def do_schedule(host):
     schedule.every(2).seconds.do(ping, host) # Запускаем функцию ping() каждые ...
                                              # Задаётся переодичность в секундах, по умолчанию 2 сек.
@@ -50,9 +50,9 @@ def do_schedule(host):
     # Запускаем бесконечный цикл для постоянного запуска предыдущей строчки
     while True:
         schedule.run_pending()
-###
+***
 
-###
+***
 def ping(host):
     ping_rez = ping3.ping(host, unit='ms')
     # пингуем хост
@@ -69,11 +69,11 @@ def ping(host):
         # вызываем функцию work_time() из файла db.py
 
         print('Host not responding!')
-###
+***
 
-###
+***
 ФАЙЛ db.py
-###
+***
 def work_time():
     if config.time_start == 0: # если стартовое время равно нулю, то задаём его конечным временем
         config.time_start = config.time_end
@@ -99,12 +99,12 @@ def work_time():
     config.time_end = 0 
     config.time_start = 0
     # обнуляем начальное и конечное время
-###
+***
 
-###
+***
 ФАЙЛ config.py
-###
+***
 time_start = 0
 time_end = 0
 # здесь записаны глобальные переменные для более уобного к ним обращения
-###
+***

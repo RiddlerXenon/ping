@@ -52,7 +52,7 @@ def do_schedule(host):
 def ping(host):
     ping_rez = ping3.ping(host, unit='ms')
     # пингуем хост
-    if ping_rez != None: если пинги идут
+    if ping_rez != None: # если пинги идут
         if config.time_start == 0: # если стартовое время равно нулю, то задаём его текущим временем
             config.time_start = int(time.time()) # Время в формате Unix                                                    
         print(f"{ping_rez} ms")                                                            

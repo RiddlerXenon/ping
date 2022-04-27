@@ -16,10 +16,9 @@
 ```python 
 if __name__ == "__main__":
       main()
+# При запуске программы вызывается функция main()
 ```
-  
-    
-При запуске программы вызывается функция main()
+
 ```python 
 def main():
     host = input("Input hostname: ") # host можно задать вручную
@@ -31,7 +30,7 @@ def main():
 ```
 ```python 
 def handler(signum, frame):
-  res = input("Ctrl-c was pressed. Do you really want to exit? y/n: ") спрашиваем нужно ли завешить программу
+  res = input("Ctrl-c was pressed. Do you really want to exit? y/n: ") # спрашиваем нужно ли завешить программу
 
   if res == 'y': если да, то завершаем, иначе продолжаем работу
       config.time_end = int(time.time()) 

@@ -61,9 +61,9 @@ def ping(host):
         db.work_time()
         # вызываем функцию work_time() из файла db.py
         print('Host not responding!')
-
-### ФАЙЛ db.py ###
 ```
+### ФАЙЛ db.py ###
+
 ```python 
 def work_time():
     if config.time_start == 0: # если стартовое время равно нулю, то задаём его конечным временем

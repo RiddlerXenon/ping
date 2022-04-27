@@ -20,13 +20,13 @@ if __name__ == "__main__":
 ###
 def main():
     host = input("Input hostname: ") # host можно задать вручную
-    задаём хост, который будем пинговать
+    # задаём хост, который будем пинговать
 
     signal.signal(signal.SIGINT, handler)
-    эта строчка отвечает для завершения программы без ошибок, для этого выполняется функция handler()
+    # эта строчка отвечает для завершения программы без ошибок, для этого выполняется функция handler()
 
     do_schedule(host)
-    вызываем функцию do_schedule()
+    # вызываем функцию do_schedule()
 ###
     
 ###
@@ -45,9 +45,9 @@ def handler(signum, frame):
 ###
 def do_schedule(host):
     schedule.every(2).seconds.do(ping, host) # Запускаем функцию ping() каждые ...
-                                               Задаётся переодичность в секундах, по умолчанию 2 сек.
+                                             # Задаётся переодичность в секундах, по умолчанию 2 сек.
     
-    Запускаем бесконечный цикл для постоянного запуска предыдущей строчки
+    # Запускаем бесконечный цикл для постоянного запуска предыдущей строчки
     while True:
         schedule.run_pending()
 ###
@@ -55,18 +55,18 @@ def do_schedule(host):
 ###
 def ping(host):
     ping_rez = ping3.ping(host, unit='ms')
-    пингуем хост
+    # пингуем хост
 
     if ping_rez != None: если пинги идут
-        if config.time_start == 0: если стартовое время равно нулю, то задаём его текущим временем
+        if config.time_start == 0: # если стартовое время равно нулю, то задаём его текущим временем
             config.time_start = int(time.time()) # Время в формате Unix                                                    
         print(f"{ping_rez} ms")                  
                                                 
-    else: если пингов нет, то задаём конечное время его текущим временем                                
+    else: # если пингов нет, то задаём конечное время его текущим временем                                
         config.time_end = int(time.time()) # Время в формате Unix  
                                         
         db.work_time()
-        вызываем функцию work_time() из файла db.py
+        # вызываем функцию work_time() из файла db.py
 
         print('Host not responding!')
 ###
@@ -75,30 +75,30 @@ def ping(host):
 ФАЙЛ db.py
 ###
 def work_time():
-    if config.time_start == 0: если стартовое время равно нулю, то задаём его конечным временем
+    if config.time_start == 0: # если стартовое время равно нулю, то задаём его конечным временем
         config.time_start = config.time_end
             
-    con = sql.connect('DB/pings.db') Открываем файл с базой или создаём, если файла ещё нет
-    work_time = config.time_end - config.time_start вычисляет общее время работы
+    con = sql.connect('DB/pings.db') # Открываем файл с базой или создаём, если файла ещё нет
+    work_time = config.time_end - config.time_start # вычисляет общее время работы
 
     with con: 
         cur = con.cursor() 
 
         cur.execute("CREATE TABLE IF NOT EXISTS 'pings' ('user_number' INTEGER PRIMARY KEY ASC, 'work_start' INTEGER, 'work_end' INTEGER, 'work_time' INTEGER)")
-        создаём таблицу в базе данных, если она ещё не создана
+        # создаём таблицу в базе данных, если она ещё не создана
         
         cur.execute(f"INSERT INTO 'pings' ('work_start', 'work_end', 'work_time') VALUES ('{config.time_start}', '{config.time_end}', '{work_time}')")
-        записываем данные в базу данных
+        # записываем данные в базу данных
         
         con.commit()
-        сохраняем изменения
+        # сохраняем изменения
         
         cur.close()
-        закрываем базу
+        # закрываем базу
 
     config.time_end = 0 
     config.time_start = 0
-    обнуляем начальное и конечное время
+    # обнуляем начальное и конечное время
 ###
 
 ###
@@ -106,5 +106,5 @@ def work_time():
 ###
 time_start = 0
 time_end = 0
-здесь записаны глобальные переменные для более уобного к ним обращения
+# здесь записаны глобальные переменные для более уобного к ним обращения
 ###

@@ -33,11 +33,14 @@ def handler(signum, frame):
   res = input("Ctrl-c was pressed. Do you really want to exit? y/n: ") # спрашиваем нужно ли завешить программу
 
   if res == 'y': если да, то завершаем, иначе продолжаем работу
-      config.time_end = int(time.time()) 
-      # В переменную конечного времени записываем настоящее время в формате Unix  
-      db.work_time()
-      # вызываем функцию work_time() из файла db.py
-      exit(1) 
+      if config.time_start == 0:    
+            exit(1)
+      else:
+            config.time_end = int(time.time()) 
+            # В переменную конечного времени записываем настоящее время в формате Unix  
+            db.work_time()
+            # вызываем функцию work_time() из файла db.py
+            exit(1) 
 ```
 ```python 
 def do_schedule(host):
@@ -51,22 +54,23 @@ def do_schedule(host):
 def ping(host):
     ping_rez = ping3.ping(host, unit='ms')
     # пингуем хост
-    if ping_rez != None: # если пинги идут
+    if ping_rez != None and ping_rez != False: # если пинги идут
         if config.time_start == 0: # если стартовое время равно нулю, то задаём его текущим временем
             config.time_start = int(time.time()) # Время в формате Unix                                                    
         print(f"{ping_rez} ms")                                                            
     else: # если пингов нет, то задаём конечное время его текущим временем                                
-        config.time_end = int(time.time()) # Время в формате Unix                                     
-        db.work_time()
-        # вызываем функцию work_time() из файла db.py
-        print('Host not responding!')
+        if config.time_start == 0: если работа не начаналась и пинги не шли
+            print('Host not responding!')
+        else:
+            config.time_end = int(time.time()) # Время в формате Unix                                     
+            db.work_time()
+            # вызываем функцию work_time() из файла db.py
+            print('Host not responding!')
 ```
 ### ФАЙЛ db.py ###
 
 ```python 
-def work_time():
-    if config.time_start == 0: # если стартовое время равно нулю, то задаём его конечным временем
-        config.time_start = config.time_end     
+def work_time(): 
     con = sql.connect('DB/pings.db') # Открываем файл с базой или создаём, если файла ещё нет
     work_time = config.time_end - config.time_start # вычисляет общее время работы
     with con: 

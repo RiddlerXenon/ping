@@ -3,9 +3,6 @@ import sqlite3 as sql
 import config
 
 def work_time():
-    if config.time_start == 0:
-        config.time_start = config.time_end
-            
     con = sql.connect('DB/pings.db')
     work_time = config.time_end - config.time_start
 

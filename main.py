@@ -21,26 +21,32 @@ def handler(signum, frame):
     res = input("Ctrl-c was pressed. Do you really want to exit? y/n: ")
 
     if res == 'y':
-        config.time_end = int(time.time()) # Время в формате Unix  
-                                        
-        db.work_time()
-        
-        exit(1)
+        if config.time_start == 0:    
+            exit(1)
+        else:
+            config.time_end = int(time.time()) # Время в формате Unix  
+                                            
+            db.work_time()
+            
+            exit(1)
 
 def ping(host):
     ping_rez = ping3.ping(host, unit='ms')
 
-    if ping_rez != None:
+    if ping_rez != None and ping_rez != False:
         if config.time_start == 0:
             config.time_start = int(time.time()) # Время в формате Unix                                                    
         print(f"{ping_rez} ms")                  
                                                 
-    else:                                        
-        config.time_end = int(time.time()) # Время в формате Unix  
-                                        
-        db.work_time()
+    else:       
+        if config.time_start == 0:    
+            print('Host not responding!')
+        else:
+            config.time_end = int(time.time()) # Время в формате Unix  
+                                            
+            db.work_time()
 
-        print('Host not responding!')
+            print('Host not responding!')
 
 def do_schedule(host):
     schedule.every(2).seconds.do(ping, host) # Задание переодичности в секундах, по умолчанию 2 сек.

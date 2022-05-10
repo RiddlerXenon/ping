@@ -16,4 +16,4 @@ def mask_calc(ip, mask):
     net = IPv4Network((ip, mask))
     hosts = list(net.hosts())
 
-    main.do_schedule(dl, int(str(hosts[0]).replace(dl, '')), int(str(hosts[-1]).replace(dl, '')) + 1)
+    main.do_schedule(dl, hosts)

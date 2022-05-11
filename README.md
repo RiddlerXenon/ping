@@ -39,7 +39,7 @@
 
   ```
 
-  def ping(host, hosts):
+  def ping(hosts):
     for i in hosts:                            # Запускаем цикл перебора ip в маске
         ping_rez = ping3.ping(i, unit='ms')    # Пингуем ip
         config.host = i                        # Записываем ip в переменную host в файле config.py
@@ -54,13 +54,13 @@
 
   ```
 
-  def do_schedule(host, hosts):
-    ping(host, hosts)                                # Выполняем функцию ping
+  def do_schedule(hosts):
+    ping(hosts)                                # Выполняем функцию ping
 
-    schedule.every(5).minutes.do(ping, host, hosts)  # Выполнение функции ping каждые 5 минут (можно поменять)
+    schedule.every(5).minutes.do(ping, hosts)  # Выполнение функции ping каждые 5 минут (можно поменять)
 
-    while True:                                       # Запускаем бесконечный цикл,
-        schedule.run_pending()                        # который будет поддерживать работоспособность таймера
+    while True:                                # Запускаем бесконечный цикл,
+        schedule.run_pending()                 # который будет поддерживать работоспособность таймера
 
   ```
 
@@ -76,16 +76,6 @@
   ```
 
   def mask_calc(ip, mask):
-    count = 0                           # Задаём переменные count
-    dl = ''                             # и dl
-
-    for i in range(1, len(ip)):         # 
-        if ip[-i] != '.':               # Запускаем цикл для получения
-            count += 1                  # первых трёх значений
-        else:                           # изначального ip
-            dl = ip[:(len(ip) - count)] # (типа 192.168.0.)
-            break                       #
-
     net = IPv4Network((ip, mask))       # Получаем ip адреса из маски
     hosts = list(net.hosts())           # создаём список адресов сети
 

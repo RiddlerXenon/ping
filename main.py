@@ -26,7 +26,7 @@ def handler(signum, frame):
             
         exit(1)
 
-def ping(host, hosts):
+def ping(hosts):
     for i in hosts:
         ping_rez = ping3.ping(str(i), unit='ms')
         config.host = str(i)
@@ -37,10 +37,10 @@ def ping(host, hosts):
         else:                                
             db.check()
 
-def do_schedule(host, hosts):
-    ping(host, hosts)
+def do_schedule(hosts):
+    ping(hosts)
 
-    schedule.every(5).minutes.do(ping, host, hosts)
+    schedule.every(5).minutes.do(ping, hosts)
 
     while True:
         schedule.run_pending()

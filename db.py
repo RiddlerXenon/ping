@@ -14,7 +14,7 @@ def work_time():
         if config.host == row[0] and row[1] is not None and row[2] is not None:
             work = row[2] - row[1]
 
-            cur.execute(f"UPDATE pings set work_time = {work} WHERE user_ip = '{config.host}', work_start = '{row[1]}', work_end = '{row[2]}'")
+            cur.execute(f"UPDATE pings set work_time = {work} WHERE work_start = '{row[1]}'")
 
     con.commit()
     con.close()
@@ -93,8 +93,7 @@ def finall():
 
         if row[1] is not None and row[2] is None:
             count += 1
-            config.work_t = row[1]
-
+            
         if count != 0:
             cur.execute(f"UPDATE pings set work_end = {int(time.time())} WHERE work_start = '{row[1]}'")
             cur.execute(f"UPDATE pings set work_time = {int(time.time()) - row[1]} WHERE work_start = '{row[1]}'")

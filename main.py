@@ -23,7 +23,7 @@ def handler(signum, frame):
 
     if res == 'y':          
         db.finall()
-            
+
         exit(1)
 
 def ping(hosts):

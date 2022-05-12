@@ -97,7 +97,7 @@
         if config.host == row[0] and row[1] is not None and row[2] is not None: # если у устройства есть время начала работы и время конца
             work = row[2] - row[1]                                              # вычисляем общее время работы
 
-            cur.execute(f"UPDATE pings set work_time = {work} WHERE user_ip = '{config.host}', work_start = '{row[1]}', work_end = '{row[2]}'") # Заносим общее время работы в базу
+            cur.execute(f"UPDATE pings set work_time = {work} WHERE work_start = '{row[1]}'") # Заносим общее время работы в базу
 
     con.commit() # Сохраняем изменения
     con.close()  # Закрываем базу
@@ -194,7 +194,6 @@
                                                          # и вычисляется общее время работы
         if row[1] is not None and row[2] is None:
             count += 1
-            config.work_t = row[1]
 
         if count != 0:
             cur.execute(f"UPDATE pings set work_end = {int(time.time())} WHERE work_start = '{row[1]}'")

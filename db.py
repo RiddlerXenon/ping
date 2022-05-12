@@ -90,10 +90,10 @@ def finall():
 
     for row in rows:
         count = 0
-
+        print(row[0])
         if row[1] is not None and row[2] is None:
             count += 1
-            
+
         if count != 0:
             cur.execute(f"UPDATE pings set work_end = {int(time.time())} WHERE work_start = '{row[1]}'")
             cur.execute(f"UPDATE pings set work_time = {int(time.time()) - row[1]} WHERE work_start = '{row[1]}'")

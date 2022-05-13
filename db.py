@@ -70,7 +70,7 @@ def check():
 
     cur.execute("CREATE TABLE IF NOT EXISTS pings (user_ip STRING, work_start INTEGER, work_end INTEGER, work_time INTEGER)")
 
-    rows = cur.execute("SELECT * FROM pings")
+    rows = cur.execute(f"SELECT * FROM pings WHERE user_ip = '{config.host}'")
 
     for row in rows:
         if row[1] is not None:
@@ -90,7 +90,7 @@ def finall():
 
     for row in rows:
         count = 0
-        print(row[0])
+        
         if row[1] is not None and row[2] is None:
             count += 1
 

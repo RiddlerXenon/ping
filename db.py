@@ -86,17 +86,18 @@ def finall():
     con = sql.connect('DB/pings.db')
     cur = con.cursor()
 
-    rows = cur.execute("SELECT * FROM pings")
+    cur.execute(f"""
+        UPDATE pings
+        SET
+            work_end = {int(time.time())},
+            work_time = {int(time.time())} - (
+                SELECT work_start
+                FROM pings AS p
+                WHERE
+                    work_end IS NULL and pings.work_start = p.work_start
+            )
+        WHERE work_end IS NULL
+    """)
 
-    for row in rows:
-        count = 0
-        
-        if row[1] is not None and row[2] is None:
-            count += 1
-
-        if count != 0:
-            cur.execute(f"UPDATE pings set work_end = {int(time.time())} WHERE work_start = '{row[1]}'")
-            cur.execute(f"UPDATE pings set work_time = {int(time.time()) - row[1]} WHERE work_start = '{row[1]}'")
-    
     con.commit()
     con.close()
